@@ -24,8 +24,12 @@ describe('Sandbox', () => {
       expect(context.Backstage.modules).to.eql({});
     });
 
+    it('should return context with Backstage env', () => {
+      expect(context.Backstage.env.MY_GLOBALVAR).to.eql('test');
+    });
+
     it('should return context with console', () => {
-      expect(context.console).to.exist;
+      expect(context.console).to.be.eql(console);
     });
 
     it('should return context with exports', () => {
