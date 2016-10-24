@@ -7,7 +7,7 @@ describe('Sandbox', () => {
   before(() => {
     testSandbox = new Sandbox({
       env: {
-        MY_GLOBALVAR: 'test'
+        MY_GLOBALVAR: 'test',
       },
       asyncTimeout: 100,
     });

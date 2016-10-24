@@ -2,7 +2,9 @@
 setup:
 	npm install
 
-test:
+test: test_unit lint
+
+test_unit:
 	npm test
 
 lint:
