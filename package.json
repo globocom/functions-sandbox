@@ -1,5 +1,5 @@
 {
-  "name": "functions-sandbox",
+  "name": "backstage-functions-sandbox",
   "version": "0.1.0",
   "description": "Sandbox for Backstage functions",
   "main": "index.js",
