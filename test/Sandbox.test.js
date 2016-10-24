@@ -80,6 +80,24 @@ describe('Sandbox', () => {
         expect(result.stack).to.be.eql('');
       });
     });
+
+    describe('when code has a RuntimeError', () => {
+      it('should raise an error', () => {
+        const code = `
+             function calculateBar() {
+                throw new Error('Runtime Error');
+             }
+             calculateBar();
+             function main() {}
+        `;
+        const result = testSandbox.testSyntaxError('test.js', code);
+
+        expect(result.error).to.be.eql('Error: Runtime Error');
+        expect(result.stack).to.be.eql('at calculateBar (test.js:3)\n' +
+                                       'at test.js:5\n' +
+                                       'at test.js:8');
+      });
+    });
   });
 
   describe('#compileCode() and #runScript()', () => {
