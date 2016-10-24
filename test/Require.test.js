@@ -14,8 +14,7 @@ describe('Require', () => {
         './module1': () => ({}),
         './mypackage/module2': () => ({}),
       };
-      sandboxRequire = new Require(myModule, '.');
-      sandboxRequire.setGlobalModules(['http']);
+      sandboxRequire = new Require(myModule, '.', ['http']);
       encapsulatedRequire = sandboxRequire.generateRequire();
     });
 
@@ -51,8 +50,7 @@ describe('Require', () => {
         './mypackage2/module2': () => ({}),
         './mypackage3/module3': () => ({}),
       };
-      sandboxRequire = new Require(myModule, '.');
-      sandboxRequire.setGlobalModules(['http']);
+      sandboxRequire = new Require(myModule, '.', ['http']);
       relativeRequire = sandboxRequire.generateRelativeRequire();
     });
 
