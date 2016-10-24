@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint lib test",
-    "test": "istanbul cover _mocha --report lcovonly -- --recursive"
+    "test": "istanbul cover _mocha --report lcovonly -- --recursive",
+    "send_cover": "istanbul-coveralls",
   },
   "repository": {
     "type": "git",
