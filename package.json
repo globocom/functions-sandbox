@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint lib test",
     "test": "istanbul cover _mocha --report lcovonly -- --recursive",
-    "send_cover": "istanbul-coveralls",
+    "send_cover": "istanbul-coveralls"
   },
   "repository": {
     "type": "git",
