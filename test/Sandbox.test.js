@@ -145,9 +145,7 @@ describe('Sandbox', () => {
     });
 
     describe('when code has a timeout problem', () => {
-      it('should resolve promise as rejected', function timeoutTest(done) {
-        this.timeout(10000);
-
+      it('should resolve promise as rejected', (done) => {
         const filename = 'test.js';
         const code = 'function main(req, res) {}';
         const script = testSandbox.compileCode(filename, code);
