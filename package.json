@@ -1,0 +1,36 @@
+{
+  "name": "functions-sandbox",
+  "version": "0.1.0",
+  "description": "Sandbox for Backstage functions",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint lib test",
+    "test": "istanbul cover _mocha --report lcovonly -- --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/backstage/functions-sandbox.git"
+  },
+  "keywords": [
+    "sandbox",
+    "functions",
+    "backstage"
+  ],
+  "author": "Backstage Team <backstage@corp.globo.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/backstage/functions-sandbox/issues"
+  },
+  "homepage": "https://github.com/backstage/functions-sandbox#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "istanbul": "^0.4.5",
+    "istanbul-coveralls": "^1.0.3",
+    "mocha": "^3.0.2"
+  }
+}
