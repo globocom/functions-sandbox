@@ -2,9 +2,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/backstage/functions-sandbox/badge.svg?branch=master)](https://coveralls.io/github/backstage/functions-sandbox?branch=master)
 
 # Backstage functions-sandbox
-Open source sandbox used in [Backstage functions](https://github.com/backstage/functions)
 
-# Example of usage
+Backstage Functions is an Open Source serverless framework. Behind the courtains, it uses **functions-sandbox**.
+
+**functions-sandbox** is the engine behind [Backstage Functions](https://github.com/backstage/functions) and executes code in isolation. It could be used for both run code in production as well as test the deployed functions (before they are deployed, hopefully).
+
+## Example of usage
 
 ```javascript
 const Sandbox = require('backstage-functions-sandbox');
@@ -18,7 +21,6 @@ const mySandbox = new Sandbox({
   syncTimeout: 300,
 });
 
-
 const myCode = mySandbox.compileCode('test.js', `
   function main(req, res) {
     const result = req.body.x * req.body.y;
@@ -27,7 +29,7 @@ const myCode = mySandbox.compileCode('test.js', `
   }
 `)
 
-// loopback.Request compatible
+// express.Request compatible
 const req = {
   headers: {},
   query: {},
