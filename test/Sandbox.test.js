@@ -16,10 +16,8 @@ describe('Sandbox', () => {
     });
   });
 
-  it('should assure the globalModules were required', (done) => {
+  it('should assure the globalModules were required', () => {
     expect(testSandbox.loadedGlobalModules[0]).to.have.property('readFile');
-
-    done();
   });
 
   describe('#createEmptyContext()', () => {
