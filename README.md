@@ -27,14 +27,14 @@ const myCode = mySandbox.compileCode('test.js', `
     const name = Backstage.env.MY_VAR;
     res.send({ name, result })
   }
-`)
+`);
 
 // express.Request compatible
 const req = {
   headers: {},
   query: {},
   body: { x: 10, y: 10}
-}
+};
 
 mySandbox.runScript(myCode, req).then(({status, body}) => {
   console.info('Result:', status, body);
@@ -42,3 +42,12 @@ mySandbox.runScript(myCode, req).then(({status, body}) => {
   console.error('Error:', err);
 });
 ```
+
+## Configuration
+
+| Name            | Description                                      | Example                               |
+|:----------------|:-------------------------------------------------|:--------------------------------------|
+| `env`           | Environment variables used by deployed functions | `{ MY_VAR: 'Some value' }`            |
+| `syncTimeout`   | Timeout when executing synchronous functions     | `syncTimeout: 300`                    |
+| `asyncTimeout`  | Timeout when executing asynchronous functions    | `asyncTimeout: 1000`                  |
+| `globalModules` | Modules that will be available to all functions  | `globalModules: [ 'path/to/module' ]` |
