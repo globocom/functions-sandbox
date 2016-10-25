@@ -9,8 +9,17 @@ describe('Sandbox', () => {
       env: {
         MY_GLOBALVAR: 'test',
       },
+      globalModules: [
+        'fs',
+      ],
       asyncTimeout: 100,
     });
+  });
+
+  it('should assure the globalModules were required', (done) => {
+    expect(testSandbox.loadedGlobalModules[0]).to.have.property('readFile');
+
+    done();
   });
 
   describe('#createEmptyContext()', () => {
