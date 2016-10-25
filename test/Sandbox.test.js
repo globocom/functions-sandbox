@@ -127,7 +127,8 @@ describe('Sandbox', () => {
             expect(res1.body).to.be.eql(10);
             expect(res2.body).to.be.eql(20);
             done();
-          }, (error) => {
+          })
+          .catch((error) => {
             done(error);
           });
       });
@@ -146,7 +147,8 @@ describe('Sandbox', () => {
           }, (error) => {
             expect(error.message).to.be.eql('An error');
             done();
-          });
+          })
+          .catch(err => done(err));
       });
     });
 
@@ -169,7 +171,8 @@ describe('Sandbox', () => {
           }, (error) => {
             expect(error.message).to.be.eql('An error');
             done();
-          });
+          })
+          .catch(err => done(err));
       });
     });
 
@@ -186,7 +189,8 @@ describe('Sandbox', () => {
           }, (error) => {
             expect(error.message).to.be.eql('Function timeout');
             done();
-          });
+          })
+          .catch(err => done(err));
       });
     });
   });
