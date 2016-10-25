@@ -190,4 +190,35 @@ describe('Sandbox', () => {
       });
     });
   });
+
+  describe('#runLocalCode()', () => {
+    describe('when code is correct', () => {
+      it('should not return any error', (done) => {
+        const filename = './test/support/valid.js';
+        const req = {};
+
+        testSandbox
+          .runLocalCode(filename, req)
+          .then((result) => {
+            expect(result.body).to.be.eql(11);
+            expect(result.status).to.be.eql(200);
+            done();
+          }).catch(err => done(err));
+      });
+    });
+
+    describe('when code is incorrect', () => {
+      it('should return any error', (done) => {
+        const filename = './test/support/invalid.js';
+        const req = {};
+
+        testSandbox
+          .runLocalCode(filename, req)
+          .catch((err) => {
+            expect(err.message).to.be.eql('b is not defined');
+            done();
+          }).catch(err => done(err));
+      });
+    });
+  });
 });
