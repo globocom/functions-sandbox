@@ -66,6 +66,22 @@ describe('Sandbox', () => {
     it('should return context with relativeRequire', () => {
       expect(context.relativeRequire).to.exist;
     });
+
+    describe('when attach a module', () => {
+      before(() => {
+        context.Backstage.modules['./foo'] = () => 10;
+        context.Backstage.modules['./foo/bar'] = () => 20;
+      });
+
+      it('should allow import absolute modules', () => {
+        expect(context.require('./foo')).to.be.eql(10);
+      });
+
+      it('should allow import relative modules', () => {
+        const relativeRequire = context.relativeRequire('foo');
+        expect(relativeRequire('./bar')).to.be.eql(20);
+      });
+    });
   });
 
   describe('#testSyntaxError()', () => {
