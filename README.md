@@ -3,9 +3,7 @@
 
 # Backstage functions-sandbox
 
-Backstage Functions is an Open Source serverless framework. Behind the curtains, it uses **functions-sandbox**.
-
-**functions-sandbox** is the engine behind [Backstage Functions](https://github.com/backstage/functions) and executes code in isolation (a sandbox). It could be used for both run code in production as well as test the deployed functions (before they are deployed, hopefully).
+**functions-sandbox** is the engine behind [Backstage Functions](https://github.com/backstage/functions) and executes code in isolation (a sandbox). It could be used for both running code in production as well as testing the deployed functions (before they are deployed, hopefully).
 
 ## Example of usage
 
