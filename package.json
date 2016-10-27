@@ -1,6 +1,6 @@
 {
   "name": "backstage-functions-sandbox",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sandbox for Backstage functions",
   "main": "index.js",
   "scripts": {
