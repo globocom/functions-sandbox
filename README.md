@@ -49,3 +49,27 @@ mySandbox.runScript(myCode, req).then(({status, body}) => {
 | `syncTimeout`   | Timeout when executing synchronous functions     | `syncTimeout: 300`                    |
 | `asyncTimeout`  | Timeout when executing asynchronous functions    | `asyncTimeout: 1000`                  |
 | `globalModules` | Modules that will be available to all functions  | `globalModules: [ 'path/to/module' ]` |
+
+
+## Objects
+
+### req -> Request
+
+| Property | Type     | Description                             |
+|:---------|:---------|:----------------------------------------|
+| headers  | property | HTTP Headers received from this request |
+| query    | property | HTTP parsed querystring                 |
+| body     | property | HTTP body decoded from json             |
+
+### res -> Response
+
+| Property                 | Type      | Description                                       |
+|:-------------------------|:----------|:--------------------------------------------------|
+| set(header, value)       | method    | set a HTTP Header value                           |
+| status(statusCode)       | method    | change status code of this response, default: 200 |
+| send(body)               | method    | finalize the response sending body to the client  |
+| notModified()            | method    | finalize the response sending 304 without body    |
+| badRequestError(msg)     | method    | finalize the response sending 400 with error msg  |
+| notFoundError(msg)       | method    | finalize the response sending 404 with error msg  |
+| validationError(msg)     | method    | finalize the response sending 422 with error msg  |
+| internalServerError(msg) | method    | finalize the response sending 500 with error msg  |
