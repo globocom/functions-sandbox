@@ -69,7 +69,7 @@ mySandbox.runScript(myCode, req).then(({status, body}) => {
 | status(statusCode)       | method    | change status code of this response, default: 200 |
 | send(body)               | method    | finalize the response sending body to the client  |
 | notModified()            | method    | finalize the response sending 304 without body    |
-| badRequestError(msg)     | method    | finalize the response sending 400 with error msg  |
-| notFoundError(msg)       | method    | finalize the response sending 404 with error msg  |
-| validationError(msg)     | method    | finalize the response sending 422 with error msg  |
+| badRequest(msg)          | method    | finalize the response sending 400 with error msg  |
+| notFound(msg)            | method    | finalize the response sending 404 with error msg  |
+| unprocessableEntity(msg) | method    | finalize the response sending 422 with error msg  |
 | internalServerError(msg) | method    | finalize the response sending 500 with error msg  |

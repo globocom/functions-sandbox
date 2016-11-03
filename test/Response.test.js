@@ -73,7 +73,7 @@ describe('Response', () => {
         done();
       };
       res = new Response({ callback });
-      res.badRequestError('Its an error');
+      res.badRequest('Its an error');
     });
 
     it('should sends the response with status of 304', () => {
@@ -92,7 +92,7 @@ describe('Response', () => {
         done();
       };
       res = new Response({ callback });
-      res.notFoundError('My resource not is found');
+      res.notFound('My resource not is found');
     });
 
     it('should sends the response with status of 404', () => {
@@ -111,7 +111,7 @@ describe('Response', () => {
         done();
       };
       res = new Response({ callback });
-      res.validationError('Field a is wrong');
+      res.unprocessableEntity('Field a is wrong');
     });
 
     it('should sends the response with status of 422', () => {
