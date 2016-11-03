@@ -13,6 +13,9 @@ describe('Sandbox', () => {
         'fs',
       ],
       asyncTimeout: 100,
+      config: {
+        test: 'test',
+      },
     });
   });
 
@@ -33,6 +36,10 @@ describe('Sandbox', () => {
 
     it('should return context with Backstage env', () => {
       expect(context.Backstage.env.MY_GLOBALVAR).to.eql('test');
+    });
+
+    it('should return context with Backstage config', () => {
+      expect(context.Backstage.config.test).to.eql('test');
     });
 
     it('should return context with console', () => {
