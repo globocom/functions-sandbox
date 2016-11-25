@@ -12,7 +12,7 @@ const Sandbox = require('backstage-functions-sandbox');
 
 const mySandbox = new Sandbox({
   env: {
-     MY_VAR: 'TRUE', // enviroment variable will be available on Backstage.env.MY_VAR
+     MY_VAR: 'TRUE', // environment variable will be available on Backstage.env.MY_VAR
   },
   globalModules: [ 'path' ], // put all available modules that will allow to import
   asyncTimeout: 10000,
