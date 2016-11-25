@@ -1,4 +1,4 @@
-.PHONY: setup test lint clean
+.PHONY: setup test test_unit lint clean
 setup:
 	npm install
 
