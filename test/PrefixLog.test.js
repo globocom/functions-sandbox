@@ -1,69 +1,54 @@
+const { Writable } = require('stream');
 const expect = require('chai').expect;
-
 const PrefixLog = require('../lib/PrefixLog');
 
 
-class FakeConsole {
+class MemoryStream extends Writable {
   constructor() {
+    super();
     this.buffer = [];
   }
 
-  debug(...args) {
-    this.write('debug:', ...args);
-  }
-
-  info(...args) {
-    this.write('info:', ...args);
-  }
-
-  log(...args) {
-    this.write('log:', ...args);
-  }
-
-  error(...args) {
-    this.write('error:', ...args);
-  }
-
-  warn(...args) {
-    this.write('warn:', ...args);
-  }
-
-  write(...args) {
-    this.buffer.push(args.join(' '));
+  _write(chunk, encoding, done) {
+    this.buffer.push(chunk.toString());
+    done();
   }
 }
 
 describe('PrefixLog', () => {
   let log;
-  let fakeConsole;
+  let stdOutStream;
+  let stdErrStream;
 
   beforeEach(() => {
-    fakeConsole = new FakeConsole();
-    log = new PrefixLog('test', fakeConsole);
+    stdOutStream = new MemoryStream();
+    stdErrStream = new MemoryStream();
+
+    log = new PrefixLog('test', stdOutStream, stdErrStream);
   });
 
   it('info', () => {
     log.info('is info', '123');
-    expect(fakeConsole.buffer).to.be.eql(['info: [test] is info 123']);
+    expect(stdOutStream.buffer).to.be.eql(['info: [test] is info 123\n']);
   });
 
   it('log', () => {
     log.log('is log', '321');
-    expect(fakeConsole.buffer).to.be.eql(['info: [test] is log 321']);
+    expect(stdOutStream.buffer).to.be.eql(['info: [test] is log 321\n']);
   });
 
   it('error', () => {
     log.error('is error', 'details:');
-    expect(fakeConsole.buffer).to.be.eql(['error: [test] is error details:']);
+    log.error(new Error().stack);
+    expect(stdErrStream.buffer[0]).to.be.eql('error: [test] is error details:\n');
+    expect(stdErrStream.buffer.length).to.be.above(5);
+    for (const line of stdErrStream.buffer) {
+      expect(line.indexOf('error: [test]')).to.be.eql(0);
+    }
   });
 
   it('warn', () => {
     log.warn('is warn', 'details:');
-    expect(fakeConsole.buffer).to.be.eql(['warn: [test] is warn details:']);
-  });
-
-  it('debug', () => {
-    log.debug('is debug');
-    expect(fakeConsole.buffer).to.be.eql(['debug: [test] is debug']);
+    expect(stdErrStream.buffer).to.be.eql(['error: [test] is warn details:\n']);
   });
 });
