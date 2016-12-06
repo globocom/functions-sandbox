@@ -6,7 +6,7 @@ cache:
 node_js:
   - "6.9.1"
   - "6"
-  - "7"
+  - "node"
 script: make test
 after_success:
   npm run send_cover
