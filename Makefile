@@ -12,3 +12,8 @@ lint:
 
 clean:
 	-rm -rf node_modules
+
+bump_%:
+	npm version $*
+	git push --tags
+	npm publish
