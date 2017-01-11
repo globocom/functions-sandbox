@@ -15,5 +15,6 @@ clean:
 
 bump_%:
 	npm version $*
-	git push --tags
+	git push origin master
+	git push origin --tags
 	npm publish
