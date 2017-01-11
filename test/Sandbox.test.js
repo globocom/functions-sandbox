@@ -27,7 +27,9 @@ describe('Sandbox', () => {
     let context;
     before(() => {
       const backstageOptions = { pluggedAction: true };
-      context = testSandbox.createEmptyContext(backstageOptions);
+      const prefix = null;
+      const extraEnv = { CUSTOM_VAR: 'foo' };
+      context = testSandbox.createEmptyContext(backstageOptions, prefix, extraEnv);
     });
 
     it('should return context with Backstage modules', () => {
@@ -36,6 +38,10 @@ describe('Sandbox', () => {
 
     it('should return context with Backstage env', () => {
       expect(context.Backstage.env.MY_GLOBALVAR).to.eql('test');
+    });
+
+    it('should return custom context', () => {
+      expect(context.Backstage.env.CUSTOM_VAR).to.eql('foo');
     });
 
     it('should return context with Backstage config', () => {
@@ -135,16 +141,18 @@ describe('Sandbox', () => {
       it('should allow to compile two times', (done) => {
         const filename = 'test.js';
 
-        const code1 = 'const a = 10; function main(req, res){ res.send(a); }';
-        const code2 = 'const a = 20; function main(req, res){ res.send(a); }';
+        const env1 = { RESULT: 5 };
+        const env2 = { RESULT: 40 };
+        const code1 = 'function main(req, res){ res.send(Backstage.env.RESULT * 2); }';
+        const code2 = 'function main(req, res){ res.send(Backstage.env.RESULT / 2); }';
 
         const script1 = testSandbox.compileCode(filename, code1);
         const script2 = testSandbox.compileCode(filename, code2);
 
         Promise
           .all([
-            testSandbox.runScript(script1, {}),
-            testSandbox.runScript(script2, {}),
+            testSandbox.runScript(script1, {}, { env: env1 }),
+            testSandbox.runScript(script2, {}, { env: env2 }),
           ])
           .then(([res1, res2]) => {
             expect(res1.body).to.be.eql(10);
