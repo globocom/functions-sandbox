@@ -10,11 +10,15 @@ describe('Require', () => {
     let encapsulatedRequire;
 
     before(() => {
-      const myModule = {
+      const modules = {
         './module1': () => ({}),
         './mypackage/module2': () => ({}),
       };
-      sandboxRequire = new Require(myModule, '.', ['http']);
+      sandboxRequire = new Require({
+        modules,
+        relativePath: '.',
+        globalModules: ['http'],
+      });
       encapsulatedRequire = sandboxRequire.generateRequire();
     });
 
@@ -45,12 +49,16 @@ describe('Require', () => {
     let relativeRequire;
 
     before(() => {
-      const myModule = {
+      const modules = {
         './module1': () => ({}),
         './mypackage2/module2': () => ({}),
         './mypackage3/module3': () => ({}),
       };
-      sandboxRequire = new Require(myModule, '.', ['http']);
+      sandboxRequire = new Require({
+        modules,
+        relativePath: '.',
+        globalModules: ['http'],
+      });
       relativeRequire = sandboxRequire.generateRelativeRequire();
     });
 
