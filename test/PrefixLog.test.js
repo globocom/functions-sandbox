@@ -1,19 +1,6 @@
-const { Writable } = require('stream');
 const expect = require('chai').expect;
 const PrefixLog = require('../lib/PrefixLog');
-
-
-class MemoryStream extends Writable {
-  constructor() {
-    super();
-    this.buffer = [];
-  }
-
-  _write(chunk, encoding, done) {
-    this.buffer.push(chunk.toString());
-    done();
-  }
-}
+const MemoryStream = require('../lib/MemoryStream');
 
 describe('PrefixLog', () => {
   let log;
@@ -50,5 +37,20 @@ describe('PrefixLog', () => {
   it('warn', () => {
     log.warn('is warn', 'details:');
     expect(stdErrStream.buffer).to.be.eql(['error: [test] is warn details:\n']);
+  });
+
+  describe('when ommit the name of prefix', () => {
+    it('should attach just the level of error', () => {
+      const stream = new MemoryStream();
+      log = new PrefixLog(null, stream, stream);
+
+      log.info('is info');
+      log.error('is error');
+
+      expect(stream.buffer).to.be.eql([
+        'info: is info\n',
+        'error: is error\n',
+      ]);
+    });
   });
 });
