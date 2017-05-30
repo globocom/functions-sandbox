@@ -1,5 +1,9 @@
 const expect = require('chai').expect;
+
 const Sandbox = require('../lib/Sandbox');
+const PrefixLog = require('../lib/PrefixLog');
+
+const MemoryStream = require('../lib/MemoryStream');
 
 describe('Sandbox', () => {
   let testSandbox;
@@ -25,10 +29,11 @@ describe('Sandbox', () => {
 
   describe('#createEmptyContext()', () => {
     let context;
+    const backstageOptions = { pluggedAction: true };
+    const prefix = null;
+    const extraEnv = { CUSTOM_VAR: 'foo' };
+
     before(() => {
-      const backstageOptions = { pluggedAction: true };
-      const prefix = null;
-      const extraEnv = { CUSTOM_VAR: 'foo' };
       context = testSandbox.createEmptyContext(backstageOptions, prefix, extraEnv);
     });
 
@@ -95,6 +100,22 @@ describe('Sandbox', () => {
         expect(relativeRequire('./bar')).to.be.eql(20);
       });
     });
+
+    describe('when attach a different console', () => {
+      const differentConsole = {
+        info: () => {},
+        error: () => {},
+      };
+
+      before(() => {
+        context = testSandbox.createEmptyContext(
+          backstageOptions, prefix, extraEnv, differentConsole);
+      });
+
+      it('should attach the related console', () => {
+        expect(context.console).to.be.eql(differentConsole);
+      });
+    });
   });
 
   describe('#testSyntaxError()', () => {
@@ -143,20 +164,33 @@ describe('Sandbox', () => {
 
         const env1 = { RESULT: 5 };
         const env2 = { RESULT: 40 };
-        const code1 = 'function main(req, res){ res.send(Backstage.env.RESULT * 2); }';
-        const code2 = 'function main(req, res){ res.send(Backstage.env.RESULT / 2); }';
+        const code1 = `function main(req, res){
+          console.info("Hey");
+          res.send(Backstage.env.RESULT * 2);
+        }`;
+        const code2 = `function main(req, res){
+          console.error("Joe");
+          res.send(Backstage.env.RESULT / 2);
+        }`;
 
         const script1 = testSandbox.compileCode(filename, code1);
         const script2 = testSandbox.compileCode(filename, code2);
 
+        const stream = new MemoryStream();
+        const attachConsole = new PrefixLog(null, stream, stream);
+
         Promise
           .all([
-            testSandbox.runScript(script1, {}, { env: env1 }),
-            testSandbox.runScript(script2, {}, { env: env2 }),
+            testSandbox.runScript(script1, {}, { env: env1, console: attachConsole }),
+            testSandbox.runScript(script2, {}, { env: env2, console: attachConsole }),
           ])
           .then(([res1, res2]) => {
             expect(res1.body).to.be.eql(10);
             expect(res2.body).to.be.eql(20);
+            expect(stream.buffer).to.be.eql([
+              'info: Hey\n',
+              'error: Joe\n',
+            ]);
             done();
           })
           .catch((error) => {
