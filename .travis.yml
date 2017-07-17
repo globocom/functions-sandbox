@@ -7,6 +7,11 @@ node_js:
   - "6.9.4"
   - "6"
   - "node"
+notifications:
+  email:
+    - backstage1@corp.globo.com
+  slack:
+    secure: lZdI95hUgEKws2gkwfOofhCeKuh8g5KjSCdlsufVBfnwhiW7vZEOYIpIzVvrMmdC3rksoU42r/TzQigDdEVYnREAj+fDJUa64Glhz3gn+64J49LP+/2tCn5ZuftnKENJHNLFd4z7Yjg17P6ZH1SJOYfTGTyQlMq2xlWyzy4885ex+zDViWfeZJpbVQwZXI4eXpTb2qpsrmU6Yfkl+toHaMB9sSVlRQePM0Rctff3lIMAmt9uqY+YzQPiZgNX7d4WdEezefPe2VlUW5gatIDgyA8OaQjX0e8D9KbNZZE/dhkzkWZIvFbK3jvvMSA+4gQm6N4klps2ye/ymx0TJQnSjSNAWFCtn7cDbObMu2IVNGFc9layihFvSwUkGb3DxQnkxFoQyI+Gy6cIW8IoKQYxkCcbVFNMC07cAxgB/iy2K/+2qYZKldeCU6sWSvVDZ3c706KJcoe3+QvGoAOmp4JLVfYmEV9qPRv8JD9Z/XohTYNXvjF+lj4xNVed36AUta3DSwN3InvkA9e0Sd2OsjUYqk/ycZEE0NiRq9qNG2QL6dZ3iaaNn+upo6qP6xYPBmXo8XzD7Dw8I8zDU/3Pav0kxRnVNgGVK7eGU8FExCWwPeTITtr1k0Xj9CAJpnycq0SmvjBI4ECecY8EhO3kDWB9TSKXns3U4nRcWCOPM+FlXrI=
 script: make test
 after_success:
   npm run send_cover
