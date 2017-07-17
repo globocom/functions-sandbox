@@ -4,8 +4,9 @@ cache:
   directories:
     - node_modules
 node_js:
-  - "6.9.4"
-  - "6"
+  - "6.11.1"
+  - "7"
+  - "8"
   - "node"
 notifications:
   email:
