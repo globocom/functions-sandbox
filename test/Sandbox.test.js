@@ -241,6 +241,28 @@ describe('Sandbox', () => {
       });
     });
 
+    describe('when code has an not declared variable', () => {
+      it('should resolve promise as rejected by "strict mode"', (done) => {
+        const filename = 'test.js';
+        const code = `
+          function main(req, res) {
+             foo = 'bar';
+          }
+        `;
+        const script = testSandbox.compileCode(filename, code);
+
+        testSandbox
+          .runScript(script, {})
+          .then(() => {
+            done(new Error('It is expected an error'));
+          }, (error) => {
+            expect(error.message).to.be.eql('foo is not defined');
+            done();
+          })
+          .catch(err => done(err));
+      });
+    });
+
     describe('when code has a timeout problem', () => {
       it('should resolve promise as rejected', (done) => {
         const filename = 'test.js';
