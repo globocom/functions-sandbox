@@ -199,6 +199,58 @@ describe('Sandbox', () => {
       });
     });
 
+    describe('when code has a new async/await syntax', () => {
+      describe('when return a value', () => {
+        it('should result in a value', async () => {
+          const filename = 'test.js';
+          const code = 'async function main(req){ return {a: 1}; }';
+          const script = testSandbox.compileCode(filename, code);
+
+          const result = await testSandbox.runScript(script, {});
+          expect(result.status).to.be.eql(200);
+          expect(result.body).to.be.eql({ a: 1 });
+        });
+      });
+
+      describe('when throw an exception', () => {
+        it('should result in a value', async () => {
+          const filename = 'test.js';
+          const code = `async function main(req, res){
+              res.set("test", "ok");
+              throw UnprocessableEntity("testing");
+          }`;
+          const script = testSandbox.compileCode(filename, code);
+          const result = await testSandbox.runScript(script, {});
+
+          expect(result.body).to.be.eql({ error: 'testing' });
+          expect(result.status).to.be.eql(422);
+        });
+      });
+
+      describe('when throw a not modified exception', () => {
+        it('should result in a value', async () => {
+          const filename = 'test.js';
+          const code = 'async function main(req, res){ throw NotModified(); }';
+          const script = testSandbox.compileCode(filename, code);
+
+          const result = await testSandbox.runScript(script, {});
+          expect(result.status).to.be.eql(304);
+          expect(result.body).to.be.null;
+        });
+      });
+    });
+
+    describe('when code has a new async/await syntax', () => {
+      it('should run', async () => {
+        const filename = 'test.js';
+        const code = 'async function main(req){ return {a: 1}; }';
+        const script = testSandbox.compileCode(filename, code);
+
+        const result = await testSandbox.runScript(script, {});
+        expect(result.body).to.be.eql({ a: 1 });
+      });
+    });
+
     describe('when code has an error in main function', () => {
       it('should resolve promise as rejected', (done) => {
         const filename = 'test.js';

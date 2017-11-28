@@ -24,10 +24,11 @@ const mySandbox = new Sandbox({
 });
 
 const myCode = mySandbox.compileCode('test.js', `
-  function main(req, res) {
+  async function main(req, res) {
     const result = req.body.x * req.body.y;
     const name = Backstage.env.MY_VAR;
-    res.send({ name, result })
+    // you could call await here
+    return { name, result };
   }
 `);
 
@@ -77,3 +78,12 @@ mySandbox.runScript(myCode, req).then(({status, body}) => {
 | notFound(msg)            | method    | finalize the response sending 404 with error msg  |
 | unprocessableEntity(msg) | method    | finalize the response sending 422 with error msg  |
 | internalServerError(msg) | method    | finalize the response sending 500 with error msg  |
+
+# Pre-built exceptions
+| Class                    | Description                                       |
+|:-------------------------|:--------------------------------------------------|
+| NotModified()            | finalize the response sending 304 without body    |
+| BadRequest(msg)          | finalize the response sending 400 with error msg  |
+| NotFound(msg)            | finalize the response sending 404 with error msg  |
+| UnprocessableEntity(msg) | finalize the response sending 422 with error msg  |
+| InternalServerError(msg) | finalize the response sending 500 with error msg  |
