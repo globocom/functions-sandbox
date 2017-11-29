@@ -240,10 +240,21 @@ describe('Sandbox', () => {
       });
     });
 
-    describe('when code has a new async/await syntax', () => {
+    describe('when code return with new async/await syntax', () => {
       it('should run', async () => {
         const filename = 'test.js';
         const code = 'async function main(req){ return {a: 1}; }';
+        const script = testSandbox.compileCode(filename, code);
+
+        const result = await testSandbox.runScript(script, {});
+        expect(result.body).to.be.eql({ a: 1 });
+      });
+    });
+
+    describe('when code return without new async/await syntax', () => {
+      it('should run', async () => {
+        const filename = 'test.js';
+        const code = 'function main(req){ return {a: 1}; }';
         const script = testSandbox.compileCode(filename, code);
 
         const result = await testSandbox.runScript(script, {});
