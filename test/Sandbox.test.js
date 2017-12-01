@@ -217,25 +217,33 @@ describe('Sandbox', () => {
           const filename = 'test.js';
           const code = `async function main(req, res){
               res.set("test", "ok");
-              throw UnprocessableEntity("testing");
+              throw new UnprocessableEntity("testing");
           }`;
           const script = testSandbox.compileCode(filename, code);
-          const result = await testSandbox.runScript(script, {});
 
-          expect(result.body).to.be.eql({ error: 'testing' });
-          expect(result.status).to.be.eql(422);
+          try {
+            await testSandbox.runScript(script, {});
+            throw new Error('Not raised an exception');
+          } catch (err) {
+            expect(err.message).to.be.eql('testing');
+            expect(err.statusCode).to.be.eql(422);
+          }
         });
       });
 
       describe('when throw a not modified exception', () => {
         it('should result in a value', async () => {
           const filename = 'test.js';
-          const code = 'async function main(req, res){ throw NotModified(); }';
+          const code = 'async function main(req, res){ throw new NotModified(); }';
           const script = testSandbox.compileCode(filename, code);
 
-          const result = await testSandbox.runScript(script, {});
-          expect(result.status).to.be.eql(304);
-          expect(result.body).to.be.null;
+          try {
+            await testSandbox.runScript(script, {});
+            throw new Error('Not raised an exception');
+          } catch (err) {
+            expect(err.message).to.be.eql('');
+            expect(err.statusCode).to.be.eql(304);
+          }
         });
       });
     });
