@@ -262,7 +262,7 @@ describe('Sandbox', () => {
     describe('when code return without new async/await syntax', () => {
       it('should run', async () => {
         const filename = 'test.js';
-        const code = 'function main(req){ return {a: 1}; }';
+        const code = 'function main(req, res){ res.send({ a: 1 }); return \'ok\'; }';
         const script = testSandbox.compileCode(filename, code);
 
         const result = await testSandbox.runScript(script, {});
