@@ -65,11 +65,11 @@ describe('Response', () => {
 
   describe('create a response with bad request status code (400)', () => {
     let res;
-    let codeResponse;
+    let error;
 
     before((done) => {
-      const callback = (err, responseData) => {
-        codeResponse = responseData;
+      const callback = (err) => {
+        error = err;
         done();
       };
       res = new Response({ callback });
@@ -77,18 +77,18 @@ describe('Response', () => {
     });
 
     it('should sends the response with status of 304', () => {
-      expect(codeResponse.body).to.be.eql({ error: 'Its an error' });
-      expect(codeResponse.status).to.be.eql(400);
+      expect(error.message).to.be.eql('Its an error');
+      expect(error.statusCode).to.be.eql(400);
     });
   });
 
   describe('create a response with not found status code (404)', () => {
     let res;
-    let codeResponse;
+    let error;
 
     before((done) => {
-      const callback = (err, responseData) => {
-        codeResponse = responseData;
+      const callback = (err) => {
+        error = err;
         done();
       };
       res = new Response({ callback });
@@ -96,18 +96,18 @@ describe('Response', () => {
     });
 
     it('should sends the response with status of 404', () => {
-      expect(codeResponse.body).to.be.eql({ error: 'My resource not is found' });
-      expect(codeResponse.status).to.be.eql(404);
+      expect(error.message).to.be.eql('My resource not is found');
+      expect(error.statusCode).to.be.eql(404);
     });
   });
 
   describe('create a response with validation error status code (422)', () => {
     let res;
-    let codeResponse;
+    let error;
 
     before((done) => {
-      const callback = (err, responseData) => {
-        codeResponse = responseData;
+      const callback = (err) => {
+        error = err;
         done();
       };
       res = new Response({ callback });
@@ -115,18 +115,18 @@ describe('Response', () => {
     });
 
     it('should sends the response with status of 422', () => {
-      expect(codeResponse.body).to.be.eql({ error: 'Field a is wrong' });
-      expect(codeResponse.status).to.be.eql(422);
+      expect(error.message).to.be.eql('Field a is wrong');
+      expect(error.statusCode).to.be.eql(422);
     });
   });
 
   describe('create a response with internal server error status code (500)', () => {
     let res;
-    let codeResponse;
+    let error;
 
     before((done) => {
-      const callback = (err, responseData) => {
-        codeResponse = responseData;
+      const callback = (err) => {
+        error = err;
         done();
       };
       res = new Response({ callback });
@@ -134,8 +134,8 @@ describe('Response', () => {
     });
 
     it('should sends the response with status of 500', () => {
-      expect(codeResponse.body).to.be.eql({ error: 'Server crashed' });
-      expect(codeResponse.status).to.be.eql(500);
+      expect(error.message).to.be.eql('Server crashed');
+      expect(error.statusCode).to.be.eql(500);
     });
   });
 
