@@ -25,4 +25,25 @@ describe('Request', () => {
       expect(req.headers).to.be.eql({ host: 'localhost:3000', accept: '*/*' });
     });
   });
+
+  describe('when pass a `sandbox-omit-headers` header', () => {
+    before(() => {
+      externalRequest = {
+        headers: {
+          host: 'localhost:3000',
+          accept: '*/*',
+          authorization: 'xpto',
+          'sandbox-omit-headers': 'authorization,host',
+        },
+      };
+    });
+
+    it('should skip related headers', () => {
+      const req = new Request(externalRequest);
+      expect(Object.keys(req.headers)).to.be.eql([
+        'accept',
+        'sandbox-omit-headers',
+      ]);
+    });
+  });
 });
