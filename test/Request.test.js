@@ -33,7 +33,7 @@ describe('Request', () => {
           host: 'localhost:3000',
           accept: '*/*',
           authorization: 'xpto',
-          'sandbox-omit-headers': 'authorization,host',
+          'functions-omit-headers': 'authorization,host',
         },
       };
     });
@@ -42,7 +42,7 @@ describe('Request', () => {
       const req = new Request(externalRequest);
       expect(Object.keys(req.headers)).to.be.eql([
         'accept',
-        'sandbox-omit-headers',
+        'functions-omit-headers',
       ]);
     });
   });
