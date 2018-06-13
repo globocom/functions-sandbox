@@ -382,5 +382,38 @@ describe('Sandbox', () => {
           }).catch(err => done(err));
       });
     });
+
+    describe('options', () => {
+      it('should allow pass a console instance', (done) => {
+        const filename = './test/support/valid.js';
+        const req = {};
+
+        const mockedConsole = {
+          error: () => {},
+          log: () => {},
+          info: () => {},
+          warn: () => {},
+        };
+
+        const testSyntaxErrorCalls = [];
+        testSandbox.testSyntaxError = (...args) => {
+          testSyntaxErrorCalls.push(args);
+        };
+
+        const runScriptCalls = [];
+        testSandbox.runScript = (...args) => {
+          runScriptCalls.push(args);
+          return Promise.resolve();
+        };
+
+        testSandbox
+          .runLocalCode(filename, req, { console: mockedConsole })
+          .then(() => {
+            expect(testSyntaxErrorCalls[0][2].console).to.eql(mockedConsole);
+            expect(runScriptCalls[0][2].console).to.eql(mockedConsole);
+            done();
+          }).catch(err => done(err));
+      });
+    });
   });
 });
