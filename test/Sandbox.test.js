@@ -69,6 +69,10 @@ describe('Sandbox', () => {
       expect(context.setTimeout).to.equal(setTimeout);
     });
 
+    it('should return context with clearTimeout', () => {
+      expect(context.clearTimeout).to.equal(clearTimeout);
+    });
+
     it('should return context with Buffer', () => {
       expect(context.Buffer).to.equal(Buffer);
     });
