@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/backstage/functions-sandbox.png?branch=master)](https://travis-ci.org/backstage/functions-sandbox)
-[![Coverage Status](https://coveralls.io/repos/github/backstage/functions-sandbox/badge.svg?branch=master)](https://coveralls.io/github/backstage/functions-sandbox?branch=master)
+[![Build Status](https://travis-ci.org/globocom/functions-sandbox.png?branch=master)](https://travis-ci.org/globocom/functions-sandbox)
+[![Coverage Status](https://coveralls.io/repos/github/globocom/functions-sandbox/badge.svg?branch=master)](https://coveralls.io/github/globocom/functions-sandbox?branch=master)
 
 # Backstage functions-sandbox
 
