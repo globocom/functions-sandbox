@@ -169,11 +169,11 @@ describe('Sandbox', () => {
         const env1 = { RESULT: 5 };
         const env2 = { RESULT: 40 };
         const code1 = `function main(req, res){
-          console.info("Hey");
+          console.info(Backstage.span.operationName);
           res.send(Backstage.env.RESULT * 2);
         }`;
         const code2 = `function main(req, res){
-          console.error("Joe");
+          console.error(Backstage.span.operationName);
           res.send(Backstage.env.RESULT / 2);
         }`;
 
@@ -183,10 +183,14 @@ describe('Sandbox', () => {
         const stream = new MemoryStream();
         const attachConsole = new PrefixLog(null, stream, stream);
 
+        // span1 and span2 are mocks from opentracing spans
+        const span1 = { operationName: 'Hey' };
+        const span2 = { operationName: 'Joe' };
+
         Promise
           .all([
-            testSandbox.runScript(script1, {}, { env: env1, console: attachConsole }),
-            testSandbox.runScript(script2, {}, { env: env2, console: attachConsole }),
+            testSandbox.runScript(script1, {}, { env: env1, console: attachConsole, span: span1 }),
+            testSandbox.runScript(script2, {}, { env: env2, console: attachConsole, span: span2 }),
           ])
           .then(([res1, res2]) => {
             expect(res1.body).to.be.eql(10);
