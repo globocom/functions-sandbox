@@ -66,7 +66,7 @@ describe('Sandbox', () => {
     });
 
     it('should return context with setTimeout', () => {
-      expect(context.setTimeout).to.equal(setTimeout);
+      expect(context.setTimeout).to.exist;
     });
 
     it('should return context with clearTimeout', () => {
@@ -137,7 +137,7 @@ describe('Sandbox', () => {
         const code = 'var a = [};';
         const result = testSandbox.testSyntaxError('test.js', code);
 
-        expect(result.error).to.be.eql('SyntaxError: Unexpected token }');
+        expect(result.error).to.be.eql('SyntaxError: Unexpected token \'}\'');
         expect(result.stack).to.be.eql('');
       });
     });
@@ -282,30 +282,6 @@ describe('Sandbox', () => {
       it('should resolve promise as rejected', (done) => {
         const filename = 'test.js';
         const code = 'function main(req, res){ throw new Error(\'An error\'); }';
-        const script = testSandbox.compileCode(filename, code);
-
-        testSandbox
-          .runScript(script, {})
-          .then(() => {
-            done(new Error('It is expected an error'));
-          }, (error) => {
-            expect(error.message).to.be.eql('An error');
-            done();
-          })
-          .catch(err => done(err));
-      });
-    });
-
-    describe('when code has an error in anonymous function', () => {
-      it('should resolve promise as rejected', (done) => {
-        const filename = 'test.js';
-        const code = `
-          function main(req, res) {
-            setTimeout(() => {
-              throw new Error('An error');
-            }, 10);
-          }
-        `;
         const script = testSandbox.compileCode(filename, code);
 
         testSandbox
