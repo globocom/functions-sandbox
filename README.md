@@ -67,6 +67,8 @@ const req = {
   body: { x: 10, y: 10}
 };
 
+const taskId = `${namespace}/${id}-${Date.now()}`; //or can be any uniq id
+
 executeFunctionInSandbox(taskId, {
   env: {
     MY_VAR: 'TRUE', // environment variable will be available on Backstage.env.MY_VAR
@@ -79,14 +81,14 @@ executeFunctionInSandbox(taskId, {
   namespace: "foo",
   functionName: "bar",
   options,
-}, (result) => { // when result callback was called, the child process of sandbox execution will be died
-  if(result.error) {
-    console.error({ error: err.message || err }) //print error return from function execution
-  }
-
-  console.log(result) //print return from function execution
 })
-
+/* can return result using callback or using async await */
+.then(result => {
+  console.log(result)
+})
+.catch(err => {
+  console.log(err)
+})
 ```
 
 ## Configuration
