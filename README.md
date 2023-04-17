@@ -32,6 +32,7 @@ const myCode = mySandbox.compileCode('test.js', `
   }
 `);
 
+
 // express.Request compatible
 const req = {
   headers: {},
@@ -44,6 +45,50 @@ mySandbox.runScript(myCode, req).then(({status, body}) => {
 }, (err) => {
   console.error('Error:', err);
 });
+```
+
+## Example of usage (with child_process)
+
+```javascript
+const { executeFunctionInSandbox } = require('backstage-functions-sandbox/lib/ForkSandbox');
+
+const myCode = `
+  async function main(req, res) {
+    const result = req.body.x * req.body.y;
+    const name = Backstage.env.MY_VAR;
+    // you could call await here
+    return { name, result };
+  }
+`;
+
+const req = {
+  headers: {},
+  query: {},
+  body: { x: 10, y: 10}
+};
+
+const taskId = `${namespace}/${id}-${Date.now()}`; //or can be any uniq id
+
+executeFunctionInSandbox(taskId, {
+  env: {
+    MY_VAR: 'TRUE', // environment variable will be available on Backstage.env.MY_VAR
+  },
+  globalModules: [ 'path' ], // put all available modules that will allow to import
+  asyncTimeout: 10000,
+  syncTimeout: 300,
+  preCode: code, // not required to compile using sandbox.Compilecode
+  req,
+  namespace: "foo",
+  functionName: "bar",
+  options,
+})
+/* can return result using callback or using async await */
+.then(result => {
+  console.log(result)
+})
+.catch(err => {
+  console.log(err)
+})
 ```
 
 ## Configuration
