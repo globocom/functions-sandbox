@@ -1,6 +1,6 @@
 {
   "name": "@globocom/backstage-functions-sandbox",
-  "version": "0.5.4-next.0",
+  "version": "0.5.5",
   "description": "Sandbox for Backstage functions",
   "main": "index.js",
   "scripts": {
